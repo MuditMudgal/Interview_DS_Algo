@@ -1,27 +1,19 @@
 class Solution {
 public:
-    void getAllSubsets(vector<int>& nums, vector<int> &ans, int i, vector<vector<int>> &allSubsets){
-        if(i == nums.size()){
-            //store subsets;
-            allSubsets.push_back({ans});
+    void helper(vector<int>& nums, vector<int> ans, int idx, vector<vector<int>>& finalAns){
+        // int n = nums.size();
+        if(idx==nums.size()){
+            finalAns.push_back(ans);
             return;
         }
-        //includes
-        ans.push_back(nums[i]);
-        getAllSubsets(nums, ans, i+1, allSubsets);
-
-        ans.pop_back();  //Backtrack
-
-        //excludes
-        getAllSubsets(nums, ans, i+1, allSubsets);
-
-    }
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> allSubsets;
-        vector<int> ans;
-
-        getAllSubsets(nums, ans, 0, allSubsets);
-
-        return allSubsets;
+        helper(nums,ans,idx+1,finalAns);
+        ans.push_back(nums[idx]);
+        helper(nums,ans,idx+1,finalAns);
     }   
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> ans;
+        vector<vector<int>> finalAns;
+        helper(nums,ans,0,finalAns);
+        return finalAns;
+    }
 };
